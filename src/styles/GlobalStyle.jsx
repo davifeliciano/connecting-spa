@@ -25,6 +25,7 @@ const GlobalStyle = createGlobalStyle`
   textarea,
   select {
     font: inherit;
+    color: #2e444e;
   }
 
   button:hover {
@@ -64,10 +65,17 @@ const GlobalStyle = createGlobalStyle`
     font-size: 62.5%;
   }
 
+  :root {
+    --toastify-color-progress-light: #0584ff;
+    --toastify-color-progress-dark: #0500ff;
+  }
+
   body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     font-family: 'Roboto', sans-serif;
+    background-color: #e5e5e5;
+    color: #2e444e;
   }
 `;
 
