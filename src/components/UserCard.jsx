@@ -2,8 +2,11 @@ import styled from "styled-components";
 import profilePlaceholder from "../assets/profile_placeholder.svg";
 import Button from "./Button.jsx";
 import { Link } from "react-router-dom";
+import useAuth from "../hooks/useAuth.js";
 
 export default function UserCard({ user }) {
+  const { auth } = useAuth();
+
   return (
     <Container>
       <ProfilePicContainer>
@@ -13,7 +16,9 @@ export default function UserCard({ user }) {
           width={user.imageUrl ? 1080 : 250}
           height={user.imageUrl ? 1080 : 250}
         />
-        <FollowButton>{user.followed ? "Unfollow" : "Follow"}</FollowButton>
+        {auth.username !== user.username ? (
+          <FollowButton>{user.followed ? "Unfollow" : "Follow"}</FollowButton>
+        ) : null}
       </ProfilePicContainer>
       <UserInfoContainer>
         <h1>{user.username}</h1>
