@@ -5,6 +5,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { AiOutlinePlus } from "react-icons/ai";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import PostCard from "../components/PostCard.jsx";
+import Button from "../components/Button.jsx";
 import SideBar from "../components/SideBar.jsx";
 import useAuth from "../hooks/useAuth.js";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -89,30 +90,8 @@ const FeedContainer = styled.main`
   width: 60rem;
 `;
 
-const LoadMorePostsButton = styled.button`
-  width: 100%;
-  height: 4.5rem;
-  color: ${(props) => props.theme.contentBackground};
-  background-color: ${(props) => props.theme.secondary};
+const LoadMorePostsButton = styled(Button)`
   filter: drop-shadow(2px 2px 5px ${(props) => props.theme.secondary});
-  border: none;
-  border-radius: 5px;
-  font-family: "Poppins", sans-serif;
-  font-size: 2rem;
-  transition: background-color 200ms ease;
-
-  &:active {
-    background-color: ${(props) => props.theme.main};
-    transition: background-color 200ms ease;
-  }
-
-  &:disabled {
-    opacity: 70%;
-  }
-
-  & svg {
-    margin: auto;
-  }
 `;
 
 const NewPostButton = styled.button`

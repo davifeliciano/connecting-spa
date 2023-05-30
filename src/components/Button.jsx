@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const SubmitButton = styled.button`
+const Button = styled.button`
   width: 100%;
   height: 4.5rem;
   color: ${(props) => props.theme.contentBackground};
@@ -25,4 +25,4 @@ const SubmitButton = styled.button`
   }
 `;
 
-export default SubmitButton;
+export default Button;

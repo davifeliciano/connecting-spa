@@ -1,18 +1,13 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import {
-  Link,
-  useNavigation,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { useNavigation, useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import placeholder from "../assets/placeholder.svg";
 import Toast from "../components/Toast.jsx";
 import FormContainer from "../components/FormContainer.jsx";
 import Form from "../components/Form.jsx";
 import TextArea from "../components/TextArea.jsx";
-import SubmitButton from "../components/SubmitButton.jsx";
+import Button from "../components/Button.jsx";
 import SubmitLoader from "../components/SubmitLoader.jsx";
 import captionSchema from "../schemas/caption.schema.js";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
@@ -97,7 +92,7 @@ export default function NewPost() {
               src={image || placeholder}
               alt={image ? "Selected Image" : "Placeholder"}
             />
-            <ChooseFileButton htmlFor="file-input">
+            <ChooseFileButton as="label" htmlFor="file-input">
               Choose an Image
             </ChooseFileButton>
             <input
@@ -116,9 +111,9 @@ export default function NewPost() {
               onChange={(e) => setCaption(e.target.value)}
               disabled={isLoading}
             />
-            <SubmitButton type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading}>
               {isLoading ? <SubmitLoader /> : "Upload"}
-            </SubmitButton>
+            </Button>
           </Form>
         </FormContainer>
       </Container>
@@ -150,26 +145,14 @@ const Container = styled.div`
   }
 `;
 
-const ChooseFileButton = styled.label`
+const ChooseFileButton = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 4.5rem;
-  color: ${(props) => props.theme.contentBackground};
-  background-color: ${(props) => props.theme.secondary};
-  border: none;
-  border-radius: 5px;
-  font-family: "Poppins", sans-serif;
-  font-size: 2rem;
-  transition: background-color 200ms ease;
+  user-select: none;
 
   &:focus {
     outline: transparent;
-  }
-
-  &:active {
-    background-color: ${(props) => props.theme.main};
-    transition: background-color 200ms ease;
   }
 
   &:hover {

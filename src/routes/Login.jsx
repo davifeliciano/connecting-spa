@@ -14,7 +14,7 @@ import FormContainer from "../components/FormContainer.jsx";
 import FormHeading from "../components/FormHeading.jsx";
 import Form from "../components/Form.jsx";
 import Input from "../components/Input.jsx";
-import SubmitButton from "../components/SubmitButton.jsx";
+import Button from "../components/Button.jsx";
 import SubmitLoader from "../components/SubmitLoader.jsx";
 import useAuth from "../hooks/useAuth.js";
 import { loginSchema } from "../schemas/auth.schemas.js";
@@ -118,9 +118,9 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <SubmitButton type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading}>
               {isLoading ? <SubmitLoader /> : "Login"}
-            </SubmitButton>
+            </Button>
           </Form>
           <span>
             Don't have an account? <Link to="/signup">Sign Up</Link>

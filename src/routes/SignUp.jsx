@@ -7,7 +7,7 @@ import FormContainer from "../components/FormContainer.jsx";
 import FormHeading from "../components/FormHeading.jsx";
 import Form from "../components/Form.jsx";
 import Input from "../components/Input.jsx";
-import SubmitButton from "../components/SubmitButton.jsx";
+import Button from "../components/Button.jsx";
 import SubmitLoader from "../components/SubmitLoader.jsx";
 import { signUpSchema } from "../schemas/auth.schemas.js";
 import axios from "../api/axios.js";
@@ -110,12 +110,9 @@ export default function SignUp() {
                 setForm({ ...form, passwordConfirm: e.target.value })
               }
             />
-            <SubmitButton
-              type="submit"
-              disabled={navigation.state === "submitting"}
-            >
+            <Button type="submit" disabled={navigation.state === "submitting"}>
               {navigation.state === "submitting" ? <SubmitLoader /> : "Sign Up"}
-            </SubmitButton>
+            </Button>
           </Form>
           <span>
             Already have an account? <Link to="/login">Login</Link>
