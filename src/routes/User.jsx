@@ -1,5 +1,5 @@
 import styled, { useTheme } from "styled-components";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -21,20 +21,12 @@ export default function User() {
   const [posts, setPosts] = useState([]);
   const [outOfPosts, setOutOfPosts] = useState(false);
   const [loadingMorePosts, setLoadingMorePosts] = useState(false);
-  const effectRun = useRef(false);
 
   useEffect(() => {
-    const controller = new AbortController();
-
     const getData = async () => {
       try {
-        const userPromise = axiosPrivate.get(`/users/${username}`, {
-          signal: controller.signal,
-        });
-
-        const postsPromise = axiosPrivate.get(`/posts?author=${username}`, {
-          signal: controller.signal,
-        });
+        const userPromise = axiosPrivate.get(`/users/${username}`);
+        const postsPromise = axiosPrivate.get(`/posts?author=${username}`);
 
         const [userResponse, postsResponse] = await Promise.all([
           userPromise,
@@ -52,12 +44,7 @@ export default function User() {
       }
     };
 
-    effectRun.current && getData();
-
-    return () => {
-      effectRun.current = true;
-      controller.abort();
-    };
+    getData();
   }, []);
 
   return (

@@ -1,5 +1,5 @@
 import styled, { useTheme } from "styled-components";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -17,33 +17,20 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [outOfPosts, setOutOfPosts] = useState(false);
   const [loadingMorePosts, setLoadingMorePosts] = useState(false);
-  const effectRun = useRef(false);
 
   useEffect(() => {
-    const controller = new AbortController();
-
-    const getPosts = async () => {
-      try {
-        const response = await axiosPrivate.get("/posts", {
-          signal: controller.signal,
-        });
-
-        setPosts(response.data);
-      } catch (err) {
+    axiosPrivate
+      .get("/posts")
+      .then((res) => {
+        setPosts(res.data);
+      })
+      .catch((err) => {
         console.error(err);
         navigate("/login?reason=denied", {
           state: { from: location },
           replace: true,
         });
-      }
-    };
-
-    effectRun.current && getPosts();
-
-    return () => {
-      effectRun.current = true;
-      controller.abort();
-    };
+      });
   }, []);
 
   return (
