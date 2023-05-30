@@ -7,14 +7,12 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import PostCard from "../components/PostCard.jsx";
 import Button from "../components/Button.jsx";
 import SideBar from "../components/SideBar.jsx";
-import useAuth from "../hooks/useAuth.js";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Feed() {
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
-  const { auth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const [posts, setPosts] = useState([]);
   const [outOfPosts, setOutOfPosts] = useState(false);
@@ -22,8 +20,6 @@ export default function Feed() {
   const effectRun = useRef(false);
 
   useEffect(() => {
-    if (!auth) navigate("/login?reason=denied");
-
     const controller = new AbortController();
 
     const getPosts = async () => {
@@ -35,7 +31,7 @@ export default function Feed() {
         setPosts(response.data);
       } catch (err) {
         console.error(err);
-        navigate("/login?reason=expired", {
+        navigate("/login?reason=denied", {
           state: { from: location },
           replace: true,
         });

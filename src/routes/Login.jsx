@@ -81,10 +81,6 @@ export default function Login() {
     }
 
     switch (reason) {
-      case "expired":
-        toast("Your session has expired! Login again.");
-        break;
-
       case "newuser":
         toast("User created successfully! You can login now.");
         break;

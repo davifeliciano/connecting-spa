@@ -24,8 +24,6 @@ export default function User() {
   const effectRun = useRef(false);
 
   useEffect(() => {
-    if (!auth) navigate("/login?reason=denied");
-
     const controller = new AbortController();
 
     const getData = async () => {
@@ -47,7 +45,7 @@ export default function User() {
         setPosts(postsResponse.data);
       } catch (err) {
         console.error(err);
-        navigate("/login?reason=expired", {
+        navigate("/login?reason=denied", {
           state: { from: location },
           replace: true,
         });
