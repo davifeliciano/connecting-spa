@@ -6,7 +6,6 @@ import { AiOutlinePlus } from "react-icons/ai";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import PostCard from "../components/PostCard.jsx";
 import SideBar from "../components/SideBar.jsx";
-import useAuth from "../hooks/useAuth.js";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import UserCard from "../components/UserCard.jsx";
 
@@ -15,7 +14,6 @@ export default function User() {
   const { username } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { auth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
