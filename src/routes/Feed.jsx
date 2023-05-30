@@ -2,11 +2,12 @@ import styled, { useTheme } from "styled-components";
 import { useEffect, useState, useRef } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { AiOutlinePlus } from "react-icons/ai";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import PostCard from "../components/PostCard.jsx";
 import SideBar from "../components/SideBar.jsx";
 import useAuth from "../hooks/useAuth.js";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Feed() {
   const theme = useTheme();
@@ -33,7 +34,10 @@ export default function Feed() {
         setPosts(response.data);
       } catch (err) {
         console.error(err);
-        navigate("/login", { state: { from: location }, replace: true });
+        navigate("/login?reason=expired", {
+          state: { from: location },
+          replace: true,
+        });
       }
     };
 
@@ -63,6 +67,11 @@ export default function Feed() {
         </LoadMorePostsButton>
       </FeedContainer>
       <SideBar />
+      <Link to="/new">
+        <NewPostButton>
+          <AiOutlinePlus />
+        </NewPostButton>
+      </Link>
     </PageContainer>
   );
 }
@@ -103,5 +112,34 @@ const LoadMorePostsButton = styled.button`
 
   & svg {
     margin: auto;
+  }
+`;
+
+const NewPostButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 6rem;
+  aspect-ratio: 1 / 1;
+  border: none;
+  border-radius: 100%;
+  color: ${(props) => props.theme.contentBackground};
+  background-color: ${(props) => props.theme.secondary};
+  filter: drop-shadow(2px 2px 5px ${(props) => props.theme.secondary});
+
+  transition: background-color 200ms ease;
+
+  position: fixed;
+  right: 5rem;
+  bottom: 5rem;
+
+  &:active {
+    background-color: ${(props) => props.theme.main};
+    transition: background-color 200ms ease;
+  }
+
+  & svg {
+    width: 4rem;
+    height: 4rem;
   }
 `;

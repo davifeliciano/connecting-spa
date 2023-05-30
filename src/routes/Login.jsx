@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Link,
   useNavigation,
@@ -62,7 +62,8 @@ export default function Login() {
   const actionData = useActionData();
   const [searchParams, setSearchParams] = useSearchParams();
   const reason = searchParams.get("reason");
-  const from = location.state?.from?.pathname || "/feed";
+  const from = useRef(location.state?.from?.pathname || "/feed");
+  const fromState = useRef(location.state ?? null);
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
   const isLoading =
@@ -75,7 +76,9 @@ export default function Login() {
   }, [actionData]);
 
   useEffect(() => {
-    if (auth) navigate(from);
+    if (auth) {
+      navigate(from.current, { state: fromState.current });
+    }
 
     switch (reason) {
       case "expired":

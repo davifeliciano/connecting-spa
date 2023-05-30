@@ -11,6 +11,7 @@ import SignUp, { action as signUpAction } from "./routes/SignUp.jsx";
 import Login, { action as loginAction } from "./routes/Login.jsx";
 import Feed from "./routes/Feed.jsx";
 import ErrorPage from "./routes/ErrorPage.jsx";
+import NewPost from "./routes/NewPost.jsx";
 
 dayjs.extend(relativeTime);
 
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: "/signup", element: <SignUp />, action: signUpAction },
       { path: "/login", element: <Login />, action: loginAction },
       { path: "/feed", element: <Feed /> },
+      { path: "/new", element: <NewPost /> },
     ],
   },
 ]);
