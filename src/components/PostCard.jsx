@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { AiOutlineStar, AiFillStar, AiOutlineComment } from "react-icons/ai";
 import { useState } from "react";
+import profilePlaceholder from "../assets/profile_placeholder.svg";
 
 export default function PostCard({ post }) {
   const [like, setLike] = useState(post.liked);
@@ -12,10 +13,10 @@ export default function PostCard({ post }) {
       <CardHeader>
         <Link to={`/user/${post.author.username}`}>
           <img
-            src={post.author.imageUrl}
+            src={post.author.imageUrl ?? profilePlaceholder}
             alt={`${post.author.username} profile picture`}
-            width={1080}
-            height={1080}
+            width={post.author.imageUrl ? 1080 : 250}
+            height={post.author.imageUrl ? 1080 : 250}
           />
         </Link>
         <Link className="username" to={`/user/${post.author.username}`}>
