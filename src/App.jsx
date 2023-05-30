@@ -12,6 +12,7 @@ import Login, { action as loginAction } from "./routes/Login.jsx";
 import Feed from "./routes/Feed.jsx";
 import ErrorPage from "./routes/ErrorPage.jsx";
 import NewPost from "./routes/NewPost.jsx";
+import User from "./routes/User.jsx";
 
 dayjs.extend(relativeTime);
 
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login />, action: loginAction },
       { path: "/feed", element: <Feed /> },
       { path: "/new", element: <NewPost /> },
+      { path: "/user/:username", element: <User /> },
     ],
   },
 ]);
