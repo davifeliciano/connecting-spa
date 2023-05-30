@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
-import { useNavigation, useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import placeholder from "../assets/placeholder.svg";
 import Toast from "../components/Toast.jsx";
@@ -16,10 +16,9 @@ export default function NewPost() {
   const axiosPrivate = useAxiosPrivate();
   const location = useLocation();
   const navigate = useNavigate();
-  const navigation = useNavigation();
   const [caption, setCaption] = useState(location.state?.caption ?? "");
-  const [file, setFile] = useState(location.state?.file ?? "");
-  const [image, setImage] = useState(location.state?.image ?? null);
+  const [file, setFile] = useState("");
+  const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   function handleImageChange(e) {
@@ -79,8 +78,6 @@ export default function NewPost() {
       setIsLoading(false);
     }
   }
-
-  useEffect(() => {}, []);
 
   return (
     <>
