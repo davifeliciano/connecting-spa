@@ -20,5 +20,5 @@ const Container = styled.div`
 `;
 
 const OutletContainer = styled.div`
-  margin-inline: 10rem;
+  margin-inline: 20rem;
 `;

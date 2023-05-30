@@ -7,7 +7,7 @@ export default function RootIndex() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (Object.keys(auth).length !== 0) return navigate("/feed");
+    if (!auth) return navigate("/feed");
     navigate("/login");
   }, [auth]);
 

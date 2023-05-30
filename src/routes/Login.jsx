@@ -6,6 +6,7 @@ import {
   useNavigate,
   useActionData,
   useSearchParams,
+  useLocation,
 } from "react-router-dom";
 import { toast } from "react-toastify";
 import Toast from "../components/Toast.jsx";
@@ -55,11 +56,13 @@ export async function action({ request }) {
 
 export default function Login() {
   const { auth, setAuth } = useAuth();
+  const location = useLocation();
   const navigate = useNavigate();
   const navigation = useNavigation();
   const actionData = useActionData();
   const [searchParams, setSearchParams] = useSearchParams();
   const reason = searchParams.get("reason");
+  const from = location.state?.from?.pathname || "/feed";
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
   const isLoading =
@@ -72,7 +75,7 @@ export default function Login() {
   }, [actionData]);
 
   useEffect(() => {
-    if (Object.keys(auth).length !== 0) navigate("/feed");
+    if (auth) navigate(from);
 
     switch (reason) {
       case "expired":

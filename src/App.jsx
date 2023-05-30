@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime.js";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import GlobalStyle from "./styles/GlobalStyle";
@@ -7,7 +9,10 @@ import RootIndex from "./routes/RootIndex.jsx";
 import { AuthProvider } from "./contexts/AuthProvider.jsx";
 import SignUp, { action as signUpAction } from "./routes/SignUp.jsx";
 import Login, { action as loginAction } from "./routes/Login.jsx";
+import Feed from "./routes/Feed.jsx";
 import ErrorPage from "./routes/ErrorPage.jsx";
+
+dayjs.extend(relativeTime);
 
 const router = createBrowserRouter([
   {
@@ -18,6 +23,7 @@ const router = createBrowserRouter([
       { index: true, element: <RootIndex /> },
       { path: "/signup", element: <SignUp />, action: signUpAction },
       { path: "/login", element: <Login />, action: loginAction },
+      { path: "/feed", element: <Feed /> },
     ],
   },
 ]);

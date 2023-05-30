@@ -5,6 +5,7 @@ const theme = {
   contentBackground: "#fff",
   bodyBackground: "#e5e5e5",
   foreground: "#51687f",
+  skeletonLoaderMain: "#0586ff30",
 };
 
 export default theme;
