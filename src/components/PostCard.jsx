@@ -1,12 +1,38 @@
 import dayjs from "dayjs";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
 import { AiOutlineStar, AiFillStar, AiOutlineComment } from "react-icons/ai";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import profilePlaceholder from "../assets/profile_placeholder.svg";
+import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 
 export default function PostCard({ post }) {
+  const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
   const [like, setLike] = useState(post.liked);
+  const [likePending, setLikePending] = useState(false);
+
+  const handleLike = useCallback(() => {
+    setLikePending(true);
+
+    const url = like ? `/posts/${post.id}/unlike` : `/posts/${post.id}/like`;
+
+    axiosPrivate
+      .post(url, {})
+      .then((res) => {
+        setLike(!like);
+      })
+      .catch((err) => {
+        console.error(err);
+        navigate("/login?reason=denied", {
+          state: { from: location },
+          replace: true,
+        });
+      })
+      .finally(() => {
+        setLikePending(false);
+      });
+  }, [likePending, setLikePending, like, setLike]);
 
   return (
     <Container>
@@ -25,7 +51,9 @@ export default function PostCard({ post }) {
       </CardHeader>
       <img src={post.imageUrl} alt={post.caption} />
       <PostActions>
-        <button>{like ? <AiFillStar /> : <AiOutlineStar />}</button>
+        <button className={likePending && "pending"} onClick={handleLike}>
+          {like ? <AiFillStar /> : <AiOutlineStar />}
+        </button>
         <button>
           <AiOutlineComment />
         </button>
@@ -43,6 +71,12 @@ export default function PostCard({ post }) {
   );
 }
 
+const pendingKeyframes = keyframes`
+  to {
+    transform: rotate(72deg);
+  }
+`;
+
 const Container = styled.article`
   display: flex;
   flex-direction: column;
@@ -51,6 +85,14 @@ const Container = styled.article`
   background-color: ${(props) => props.theme.contentBackground};
   filter: drop-shadow(2px 2px 5px ${(props) => props.theme.secondary});
   font-size: 1.4rem;
+
+  & button.pending {
+    animation-name: ${pendingKeyframes};
+    animation-duration: 500ms;
+    animation-direction: alternate;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
+  }
 
   & > *:not(img) {
     padding-inline: 1rem;
