@@ -3,6 +3,7 @@ import profilePlaceholder from "../assets/profile_placeholder.svg";
 import Button from "./Button.jsx";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth.js";
+import { AiFillEdit } from "react-icons/ai";
 
 export default function UserCard({ user }) {
   const { auth } = useAuth();
@@ -10,6 +11,11 @@ export default function UserCard({ user }) {
   return (
     <Container>
       <ProfilePicContainer>
+        {auth.username === user.username ? (
+          <EditProfileButton to={"/editprofile"}>
+            <AiFillEdit />
+          </EditProfileButton>
+        ) : null}
         <img
           src={user.imageUrl ?? profilePlaceholder}
           alt={`${user.username} profile picture`}
@@ -61,6 +67,8 @@ const ProfilePicContainer = styled.div`
   gap: 1rem;
   width: 20rem;
 
+  position: relative;
+
   & img {
     width: 100%;
     height: auto;
@@ -68,6 +76,36 @@ const ProfilePicContainer = styled.div`
     border-radius: 100%;
     user-select: none;
     -webkit-user-drag: none;
+  }
+`;
+
+const EditProfileButton = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4rem;
+  aspect-ratio: 1 / 1;
+  border: none;
+  border-radius: 100%;
+  background-color: ${(props) => props.theme.secondary};
+  filter: drop-shadow(1px 1px 3px ${(props) => props.theme.secondary});
+
+  transition: background-color 200ms ease;
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(20%, 20%);
+
+  &:active {
+    background-color: ${(props) => props.theme.main};
+    transition: background-color 200ms ease;
+  }
+
+  && svg {
+    fill: ${(props) => props.theme.contentBackground};
+    width: 2rem;
+    height: 2rem;
   }
 `;
 

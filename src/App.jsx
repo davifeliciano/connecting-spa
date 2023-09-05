@@ -14,6 +14,7 @@ import ErrorPage from "./routes/ErrorPage.jsx";
 import NewPost from "./routes/NewPost.jsx";
 import User from "./routes/User.jsx";
 import Logout from "./routes/Logout.jsx";
+import EditProfile from "./routes/EditProfile.jsx";
 
 dayjs.extend(relativeTime);
 
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
       { path: "/feed", element: <Feed /> },
       { path: "/new", element: <NewPost /> },
       { path: "/user/:username", element: <User /> },
+      { path: "/editprofile", element: <EditProfile /> },
     ],
   },
 ]);

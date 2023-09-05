@@ -7,6 +7,8 @@ const messages = {
     '"password" must have at least 8 characters, at least one letter, one number and one special character (@$!%*#?&)',
 };
 
+const nameSchema = Joi.string().trim().max(255).required();
+
 const emailSchema = Joi.string().email({ tlds: false }).required();
 const usernameSchema = Joi.string()
   .pattern(/^[\w-]{3,32}$/)
@@ -33,4 +35,4 @@ const loginSchema = Joi.object({
   password: passwordSchema,
 });
 
-export { signUpSchema, loginSchema };
+export { nameSchema, signUpSchema, loginSchema };

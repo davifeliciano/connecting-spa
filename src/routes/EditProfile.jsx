@@ -7,25 +7,50 @@ import placeholder from "../assets/placeholder.svg";
 import Toast from "../components/Toast.jsx";
 import FormContainer from "../components/FormContainer.jsx";
 import Form from "../components/Form.jsx";
+import Input from "../components/Input.jsx";
 import TextArea from "../components/TextArea.jsx";
 import Button from "../components/Button.jsx";
 import SubmitLoader from "../components/SubmitLoader.jsx";
 import ChooseFileButton from "../components/ChooseFileButton.jsx";
-import captionSchema from "../schemas/caption.schema.js";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
+import editProfileSchema from "../schemas/editProfile.schema.js";
 
-export default function NewPost() {
+export default function EditProfile() {
   const axiosPrivate = useAxiosPrivate();
   const location = useLocation();
   const navigate = useNavigate();
   const { auth } = useAuth();
-  const [caption, setCaption] = useState(location.state?.caption ?? "");
+  const [name, setName] = useState(location.state?.name ?? "");
+  const [bio, setBio] = useState(location.state?.bio ?? "");
   const [file, setFile] = useState("");
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!auth) return navigate("/login?reason=denied");
+    if (!auth) {
+      return navigate("/login?reason=denied", {
+        state: { from: location },
+        replace: true,
+      });
+    }
+
+    const getData = async () => {
+      try {
+        const { data } = await axiosPrivate.get(`/users/${auth.username}`);
+
+        setName(data.name);
+        setBio(data.bio ?? "");
+        setImage(data.imageUrl);
+      } catch (err) {
+        console.error(err);
+        navigate("/login?reason=denied", {
+          state: { from: location },
+          replace: true,
+        });
+      }
+    };
+
+    getData();
   }, [auth]);
 
   function handleImageChange(e) {
@@ -40,13 +65,7 @@ export default function NewPost() {
     e.preventDefault();
     setIsLoading(true);
 
-    if (image === null) {
-      toast("Image file required");
-      setIsLoading(false);
-      return;
-    }
-
-    const { error } = captionSchema.validate(caption);
+    const { error } = editProfileSchema.validate({ name, bio });
 
     if (error) {
       toast(error.message);
@@ -55,15 +74,18 @@ export default function NewPost() {
     }
 
     const formData = new FormData();
-    formData.append("image", file);
-    formData.append("caption", caption);
+
+    if (file) formData.append("image", file);
+    formData.append("name", name);
+
+    if (bio !== "") formData.append("bio", bio);
 
     try {
-      await axiosPrivate.post("/posts", formData, {
+      await axiosPrivate.put("/users/me", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      navigate("/feed");
+      navigate(`/user/${auth.username}`);
     } catch (err) {
       switch (err.response?.status) {
         case 422:
@@ -73,7 +95,7 @@ export default function NewPost() {
 
         case 401:
           navigate("/login?reason=expired", {
-            state: { caption, image, from: location },
+            state: { name, bio, image, from: location },
             replace: true,
           });
           break;
@@ -109,16 +131,24 @@ export default function NewPost() {
               onChange={handleImageChange}
               disabled={isLoading}
             />
+            <Input
+              type="text"
+              name="name"
+              placeholder="name"
+              disabled={isLoading}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
             <TextArea
               maxLength={1500}
-              name="caption"
-              placeholder="Describe your awesome image"
-              value={caption}
-              onChange={(e) => setCaption(e.target.value)}
+              name="bio"
+              placeholder="Write something about you"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
               disabled={isLoading}
             />
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? <SubmitLoader /> : "Upload"}
+              {isLoading ? <SubmitLoader /> : "Update Profile"}
             </Button>
           </Form>
         </FormContainer>
