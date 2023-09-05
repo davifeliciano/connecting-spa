@@ -55,6 +55,10 @@ const HeaderContainer = styled.header`
 
   background-color: ${(props) => props.theme.contentBackground};
   filter: drop-shadow(2px 2px 5px ${(props) => props.theme.secondary});
+
+  @media (max-width: 768px) {
+    padding-inline: 5rem;
+  }
 `;
 
 const HeaderLogo = styled.div`

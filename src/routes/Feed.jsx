@@ -62,7 +62,6 @@ export default function Feed() {
 
 const PageContainer = styled.div`
   display: flex;
-  gap: 2rem;
   margin-bottom: 5rem;
 `;
 
@@ -71,6 +70,10 @@ const FeedContainer = styled.main`
   flex-direction: column;
   gap: 2rem;
   width: 60rem;
+
+  @media (max-width: 768px) {
+    width: 100vw;
+  }
 `;
 
 const LoadMorePostsButton = styled(Button)`

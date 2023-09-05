@@ -17,8 +17,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  min-width: 500px;
 `;
 
 const OutletContainer = styled.div`
-  margin-inline: 20rem;
+  margin-inline: 15rem;
+
+  @media (max-width: 768px) {
+    margin-inline: auto;
+  }
 `;

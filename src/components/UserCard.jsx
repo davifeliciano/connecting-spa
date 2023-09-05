@@ -48,6 +48,10 @@ const Container = styled.div`
   border-radius: 5px;
   background-color: ${(props) => props.theme.contentBackground};
   filter: drop-shadow(2px 2px 5px ${(props) => props.theme.secondary});
+
+  @media (max-width: 768px) {
+    border-radius: 0px;
+  }
 `;
 
 const ProfilePicContainer = styled.div`

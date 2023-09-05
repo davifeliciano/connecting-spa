@@ -49,9 +49,15 @@ export default function PostCard({ post }) {
           {post.author.username}
         </Link>
       </CardHeader>
-      <img src={post.imageUrl} alt={post.caption} />
+      <img
+        src={post.imageUrl}
+        alt={post.caption}
+        width={1080}
+        height={1080}
+        loading="lazy"
+      />
       <PostActions>
-        <button className={likePending && "pending"} onClick={handleLike}>
+        <button className={likePending ? "pending" : ""} onClick={handleLike}>
           {like ? <AiFillStar /> : <AiOutlineStar />}
         </button>
         <button>
@@ -107,6 +113,10 @@ const Container = styled.article`
 
   & a.username {
     font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    border-radius: 0px;
   }
 `;
 
