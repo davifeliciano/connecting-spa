@@ -5,9 +5,10 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { AiOutlinePlus } from "react-icons/ai";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import PostCard from "../components/PostCard.jsx";
-import Button from "../components/Button.jsx";
 import SideBar from "../components/SideBar.jsx";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import useSentinel from "../hooks/useSentinel.js";
+import Sentinel from "../components/Sentinel.jsx";
 
 export default function Feed() {
   const theme = useTheme();
@@ -15,8 +16,11 @@ export default function Feed() {
   const location = useLocation();
   const axiosPrivate = useAxiosPrivate();
   const [posts, setPosts] = useState([]);
-  const [outOfPosts, setOutOfPosts] = useState(false);
-  const [loadingMorePosts, setLoadingMorePosts] = useState(false);
+  const { outOfPosts, sentinelReached } = useSentinel(
+    axiosPrivate,
+    posts,
+    setPosts
+  );
 
   useEffect(() => {
     axiosPrivate
@@ -46,9 +50,7 @@ export default function Feed() {
             highlightColor={theme.skeletonLoaderMain}
           />
         )}
-        <LoadMorePostsButton>
-          {loadingMorePosts ? <SubmitLoader /> : "Load More Posts"}
-        </LoadMorePostsButton>
+        <Sentinel outOfPosts={outOfPosts} sentinelReached={sentinelReached} />
       </FeedContainer>
       <SideBar />
       <Link to="/new">
@@ -74,10 +76,6 @@ const FeedContainer = styled.main`
   @media (max-width: 768px) {
     width: 100vw;
   }
-`;
-
-const LoadMorePostsButton = styled(Button)`
-  filter: drop-shadow(2px 2px 5px ${(props) => props.theme.secondary});
 `;
 
 const NewPostButton = styled.button`

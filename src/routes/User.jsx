@@ -8,6 +8,8 @@ import PostCard from "../components/PostCard.jsx";
 import SideBar from "../components/SideBar.jsx";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import UserCard from "../components/UserCard.jsx";
+import useSentinel from "../hooks/useSentinel.js";
+import Sentinel from "../components/Sentinel.jsx";
 
 export default function User() {
   const theme = useTheme();
@@ -17,8 +19,11 @@ export default function User() {
   const axiosPrivate = useAxiosPrivate();
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
-  const [outOfPosts, setOutOfPosts] = useState(false);
-  const [loadingMorePosts, setLoadingMorePosts] = useState(false);
+  const { outOfPosts, sentinelReached } = useSentinel(
+    axiosPrivate,
+    posts,
+    setPosts
+  );
 
   useEffect(() => {
     const getData = async () => {
@@ -68,9 +73,7 @@ export default function User() {
             highlightColor={theme.skeletonLoaderMain}
           />
         )}
-        <LoadMorePostsButton>
-          {loadingMorePosts ? <SubmitLoader /> : "Load More Posts"}
-        </LoadMorePostsButton>
+        <Sentinel outOfPosts={outOfPosts} sentinelReached={sentinelReached} />
       </FeedContainer>
       <SideBar />
       <Link to="/new">
@@ -95,32 +98,6 @@ const FeedContainer = styled.main`
 
   @media (max-width: 768px) {
     width: 100vw;
-  }
-`;
-
-const LoadMorePostsButton = styled.button`
-  width: 100%;
-  height: 4.5rem;
-  color: ${(props) => props.theme.contentBackground};
-  background-color: ${(props) => props.theme.secondary};
-  filter: drop-shadow(2px 2px 5px ${(props) => props.theme.secondary});
-  border: none;
-  border-radius: 5px;
-  font-family: "Poppins", sans-serif;
-  font-size: 2rem;
-  transition: background-color 200ms ease;
-
-  &:active {
-    background-color: ${(props) => props.theme.main};
-    transition: background-color 200ms ease;
-  }
-
-  &:disabled {
-    opacity: 70%;
-  }
-
-  & svg {
-    margin: auto;
   }
 `;
 
