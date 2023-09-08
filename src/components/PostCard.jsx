@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { AiOutlineStar, AiFillStar, AiOutlineComment } from "react-icons/ai";
 import { useCallback, useState } from "react";
@@ -7,6 +7,7 @@ import profilePlaceholder from "../assets/profile_placeholder.svg";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 
 export default function PostCard({ post }) {
+  const location = useLocation();
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
   const [like, setLike] = useState(post.liked);

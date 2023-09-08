@@ -4,9 +4,48 @@ import Button from "./Button.jsx";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth.js";
 import { AiFillEdit } from "react-icons/ai";
+import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import SubmitLoader from "./SubmitLoader.jsx";
 
-export default function UserCard({ user }) {
+export default function UserCard({ user, setUser }) {
+  const axiosPrivate = useAxiosPrivate();
+  const location = useLocation();
+  const navigate = useNavigate();
   const { auth } = useAuth();
+  const [followLoading, setFollowLoading] = useState(false);
+
+  function getNewFollowersCount(user) {
+    const increment = user.followed ? -1 : 1;
+    return (parseInt(user.followersCount) + increment).toString();
+  }
+
+  async function handleFollow() {
+    setFollowLoading(true);
+
+    const url = `/users/${user.id}/${user.followed ? "unfollow" : "follow"}`;
+
+    axiosPrivate
+      .post(url, {})
+      .then(() => {
+        setUser({
+          ...user,
+          followed: !user.followed,
+          followersCount: getNewFollowersCount(user),
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        navigate("/login?reason=denied", {
+          state: { from: location },
+          replace: true,
+        });
+      })
+      .finally(() => {
+        setFollowLoading(false);
+      });
+  }
 
   return (
     <Container>
@@ -23,7 +62,15 @@ export default function UserCard({ user }) {
           height={user.imageUrl ? 1080 : 250}
         />
         {auth.username !== user.username ? (
-          <FollowButton>{user.followed ? "Unfollow" : "Follow"}</FollowButton>
+          <FollowButton onClick={handleFollow}>
+            {followLoading ? (
+              <SubmitLoader />
+            ) : user.followed ? (
+              "Unfollow"
+            ) : (
+              "Follow"
+            )}
+          </FollowButton>
         ) : null}
       </ProfilePicContainer>
       <UserInfoContainer>

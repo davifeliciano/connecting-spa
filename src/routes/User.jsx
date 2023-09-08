@@ -10,9 +10,11 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import UserCard from "../components/UserCard.jsx";
 import useSentinel from "../hooks/useSentinel.js";
 import Sentinel from "../components/Sentinel.jsx";
+import useAuth from "../hooks/useAuth.js";
 
 export default function User() {
   const theme = useTheme();
+  const { auth } = useAuth();
   const { username } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,6 +28,13 @@ export default function User() {
   );
 
   useEffect(() => {
+    if (!auth) {
+      return navigate("/login?reason=denied", {
+        state: { from: location },
+        replace: true,
+      });
+    }
+
     const getData = async () => {
       try {
         const userPromise = axiosPrivate.get(`/users/${username}`);
@@ -48,13 +57,13 @@ export default function User() {
     };
 
     getData();
-  }, []);
+  }, [auth]);
 
   return (
     <PageContainer>
       <FeedContainer>
         {user ? (
-          <UserCard user={user} />
+          <UserCard user={user} setUser={setUser} />
         ) : (
           <Skeleton
             height={300}
