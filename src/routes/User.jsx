@@ -8,7 +8,7 @@ import PostCard from "../components/PostCard.jsx";
 import SideBar from "../components/SideBar.jsx";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import UserCard from "../components/UserCard.jsx";
-import useSentinel from "../hooks/useSentinel.js";
+import useInfiniteScroll from "../hooks/useInfiniteScroll.js";
 import Sentinel from "../components/Sentinel.jsx";
 import useAuth from "../hooks/useAuth.js";
 
@@ -21,11 +21,14 @@ export default function User() {
   const axiosPrivate = useAxiosPrivate();
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
-  const { outOfPosts, sentinelReached } = useSentinel(
-    axiosPrivate,
-    posts,
-    setPosts
-  );
+  const sentinelId = "sentinel";
+  const { outOfRows, sentinelReached } = useInfiniteScroll({
+    sentinelId,
+    axios: axiosPrivate,
+    rows: posts,
+    setRows: setPosts,
+    path: "/posts",
+  });
 
   useEffect(() => {
     if (!auth) {
@@ -82,7 +85,11 @@ export default function User() {
             highlightColor={theme.skeletonLoaderMain}
           />
         )}
-        <Sentinel outOfPosts={outOfPosts} sentinelReached={sentinelReached} />
+        <Sentinel
+          outOfRows={outOfRows}
+          sentinelReached={sentinelReached}
+          sentinelId={sentinelId}
+        />
       </FeedContainer>
       <SideBar />
       <Link to="/new">

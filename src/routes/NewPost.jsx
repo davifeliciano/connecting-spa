@@ -25,7 +25,12 @@ export default function NewPost() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!auth) return navigate("/login?reason=denied");
+    if (!auth) {
+      return navigate("/login?reason=denied", {
+        state: { from: location },
+        replace: true,
+      });
+    }
   }, [auth]);
 
   function handleImageChange(e) {
@@ -63,7 +68,7 @@ export default function NewPost() {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      navigate("/feed");
+      navigate("/feed", { replace: true });
     } catch (err) {
       switch (err.response?.status) {
         case 422:

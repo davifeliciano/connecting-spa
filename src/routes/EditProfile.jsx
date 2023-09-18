@@ -85,7 +85,7 @@ export default function EditProfile() {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      navigate(`/user/${auth.username}`);
+      navigate(`/user/${auth.username}`, { replace: true });
     } catch (err) {
       switch (err.response?.status) {
         case 422:

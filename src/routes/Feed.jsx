@@ -7,7 +7,7 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import PostCard from "../components/PostCard.jsx";
 import SideBar from "../components/SideBar.jsx";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import useSentinel from "../hooks/useSentinel.js";
+import useInfiniteScroll from "../hooks/useInfiniteScroll.js";
 import Sentinel from "../components/Sentinel.jsx";
 
 export default function Feed() {
@@ -16,11 +16,14 @@ export default function Feed() {
   const location = useLocation();
   const axiosPrivate = useAxiosPrivate();
   const [posts, setPosts] = useState([]);
-  const { outOfPosts, sentinelReached } = useSentinel(
-    axiosPrivate,
-    posts,
-    setPosts
-  );
+  const sentinelId = "sentinel";
+  const { outOfRows, sentinelReached } = useInfiniteScroll({
+    sentinelId,
+    axios: axiosPrivate,
+    rows: posts,
+    setRows: setPosts,
+    path: "/posts",
+  });
 
   useEffect(() => {
     axiosPrivate
@@ -50,7 +53,11 @@ export default function Feed() {
             highlightColor={theme.skeletonLoaderMain}
           />
         )}
-        <Sentinel outOfPosts={outOfPosts} sentinelReached={sentinelReached} />
+        <Sentinel
+          outOfRows={outOfRows}
+          sentinelReached={sentinelReached}
+          sentinelId={sentinelId}
+        />
       </FeedContainer>
       <SideBar />
       <Link to="/new">

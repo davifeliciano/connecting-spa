@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import heading from "../assets/heading.svg";
 import useAuth from "../hooks/useAuth.js";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function NavItems({ auth }) {
   const className = ({ isActive, isPending }) =>
@@ -38,7 +38,9 @@ export default function Header() {
   return (
     <HeaderContainer>
       <HeaderLogo>
-        <img src={heading} alt="Connecting" />
+        <Link to={"/feed"}>
+          <img src={heading} alt="Connecting" />
+        </Link>
       </HeaderLogo>
       <Nav>
         <NavItems auth={auth} />

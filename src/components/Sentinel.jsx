@@ -2,12 +2,12 @@ import styled from "styled-components";
 import { TailSpin } from "react-loader-spinner";
 import { useTheme } from "styled-components";
 
-export default function Sentinel({ outOfPosts, sentinelReached }) {
+export default function Sentinel({ outOfRows, sentinelReached, sentinelId }) {
   const theme = useTheme();
 
   return (
     <Container id="sentinel">
-      {outOfPosts ? (
+      {outOfRows ? (
         "No more posts"
       ) : sentinelReached ? (
         <TailSpin height={40} width={40} color={theme.main} />
