@@ -13,10 +13,13 @@ For more information on the backend of this project, see the
 1. Setup and run the backend (follow the instructions on the [backend repository](https://github.com/davifeliciano/connecting-api)).
 2. Create a `.env` file from `.env.example` and set the backend URl
 3. Install the dependencies with
+
    ```bash
    $ npm install
-   ``````
+   ```
+
 4. Run the development server with
+
    ```bash
    $ npm run dev
    ```
@@ -35,6 +38,6 @@ For more information on the backend of this project, see the
   - [ ] Post deletion
 - [x] Upvote system
 - [x] Followers system
-- [ ] Comments system
+- [x] Comments system
 - [ ] Hashtags system
 - [ ] Documentation

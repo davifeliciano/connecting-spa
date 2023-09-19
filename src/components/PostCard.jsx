@@ -62,7 +62,9 @@ export default function PostCard({ post }) {
           {like ? <AiFillStar /> : <AiOutlineStar />}
         </button>
         <button>
-          <AiOutlineComment />
+          <Link to={`/post/${post.id}`}>
+            <AiOutlineComment />
+          </Link>
         </button>
       </PostActions>
       <PostContent>

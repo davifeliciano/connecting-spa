@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const TextArea = styled.textarea`
   width: 100%;
-  min-height: 16rem;
+  min-height: 10rem;
   padding-inline: 1rem;
   border: 1px solid ${(props) => props.theme.secondary};
   border-radius: 5px;

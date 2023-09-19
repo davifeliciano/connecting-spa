@@ -1,12 +1,12 @@
 import styled, { useTheme } from "styled-components";
 import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { AiOutlinePlus } from "react-icons/ai";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import PostCard from "../components/PostCard.jsx";
 import SideBar from "../components/SideBar.jsx";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import NewPostButton from "../components/NewPostButton.jsx";
 import useInfiniteScroll from "../hooks/useInfiniteScroll.js";
 import Sentinel from "../components/Sentinel.jsx";
 
@@ -60,11 +60,7 @@ export default function Feed() {
         />
       </FeedContainer>
       <SideBar />
-      <Link to="/new">
-        <NewPostButton>
-          <AiOutlinePlus />
-        </NewPostButton>
-      </Link>
+      <NewPostButton />
     </PageContainer>
   );
 }
@@ -82,34 +78,5 @@ const FeedContainer = styled.main`
 
   @media (max-width: 768px) {
     width: 100vw;
-  }
-`;
-
-const NewPostButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 6rem;
-  aspect-ratio: 1 / 1;
-  border: none;
-  border-radius: 100%;
-  color: ${(props) => props.theme.contentBackground};
-  background-color: ${(props) => props.theme.secondary};
-  filter: drop-shadow(2px 2px 5px ${(props) => props.theme.secondary});
-
-  transition: background-color 200ms ease;
-
-  position: fixed;
-  right: 5rem;
-  bottom: 5rem;
-
-  &:active {
-    background-color: ${(props) => props.theme.main};
-    transition: background-color 200ms ease;
-  }
-
-  & svg {
-    width: 4rem;
-    height: 4rem;
   }
 `;
