@@ -1,5 +1,7 @@
 # connecting
 
+https://github.com/davifeliciano/connecting/assets/26972046/10973b38-eab3-492d-90eb-4220e6edbb2c
+
 Frontend for a simple picture based social network featuring likes, followers,
 comments and hashtags functionality. Images are automatically resized to a
 pre-configured resolution — blurred inline margins are generated, if necessary —
